@@ -53,6 +53,12 @@ class Messaging_Sendgrid_Method extends Messaging_HTML_Mail_Method {
     foreach ($tokens as $key => $values) {
       $header->addSubVal($key, array_values($values));
     }
+    // Set category if any
+    $category = $message->get_params('category');
+    if (!empty($category)) {
+      $header->setCategory($category);
+    }  
+    
     $mail['headers']['X-SMTPAPI'] = $header->asJSON() . "\n"; // The line break forces the wordwrapping of this header by the mime_header_encode function in messaging_htmlmail
     return $mail;
   }
